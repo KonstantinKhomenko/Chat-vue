@@ -4,6 +4,7 @@
       <div class="login-form-image">
         <img src="@/assets/login-page-bg.png" alt="" />
       </div>
+
       <LoginForm />
     </div>
   </div>

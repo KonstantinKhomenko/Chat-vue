@@ -1,8 +1,10 @@
 import firebase from '@/plugins/firebase';
 
+const auth = firebase.auth();
+
 export const firebaseLogin = async (email, password) => {
   try {
-    const data = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const data = await auth.signInWithEmailAndPassword(email, password);
     return data;
   } catch (err) {
     return Promise.reject(err);
@@ -11,7 +13,16 @@ export const firebaseLogin = async (email, password) => {
 
 export const firebaseLogout = async () => {
   try {
-    const data = await firebase.auth().signOut();
+    const data = await auth.signOut();
+    return data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const firebaseResetPassword = async email => {
+  try {
+    const data = await auth.sendPasswordResetEmail(email);
     return data;
   } catch (err) {
     return Promise.reject(err);

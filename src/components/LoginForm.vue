@@ -1,7 +1,8 @@
 <template>
   <div class="login-form">
-    <h1 class="login-form-title">Welcome</h1>
+    <h1>Welcome</h1>
     <p class="login-form-description">Welcome to the live chat! Please login to join.</p>
+
     <el-form
       :model="formData"
       :rules="rules"

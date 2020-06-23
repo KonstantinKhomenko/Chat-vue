@@ -1,5 +1,10 @@
 import mutations from '@/store/mutations';
-import { firebaseLogin, firebaseLogout } from '@/services/firebase/auth.service';
+import {
+  firebaseLogin,
+  firebaseLogout,
+  firebaseResetPassword
+} from '@/services/firebase/auth.service';
+import router from '@/router';
 
 const { IS_LOGGED_IN, LOGIN_LOADER } = mutations;
 
@@ -50,6 +55,23 @@ const authStore = {
         await firebaseLogout();
       } catch (err) {
         console.log(err);
+      }
+    },
+
+    async resetPassword({ commit, dispatch }, email) {
+      try {
+        commit(LOGIN_LOADER, true);
+        await firebaseResetPassword(email);
+        dispatch(
+          'loadMessage',
+          { message: 'Password reset email sent successfully!', type: 'success' },
+          { root: true }
+        );
+        router.push({ name: 'Login' });
+      } catch (err) {
+        dispatch('loadMessage', { message: err.message, type: 'error' }, { root: true });
+      } finally {
+        commit(LOGIN_LOADER, false);
       }
     }
   }
