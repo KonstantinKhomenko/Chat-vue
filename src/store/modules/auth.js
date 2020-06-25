@@ -2,7 +2,8 @@ import mutations from '@/store/mutations';
 import {
   firebaseLogin,
   firebaseLogout,
-  firebaseResetPassword
+  firebaseResetPassword,
+  firebaseRegister
 } from '@/services/firebase/auth.service';
 import router from '@/router';
 
@@ -68,6 +69,22 @@ const authStore = {
           { root: true }
         );
         router.push({ name: 'Login' });
+      } catch (err) {
+        dispatch('loadMessage', { message: err.message, type: 'error' }, { root: true });
+      } finally {
+        commit(LOGIN_LOADER, false);
+      }
+    },
+
+    async register({ commit, dispatch }, { email, pass_1: password }) {
+      try {
+        commit(LOGIN_LOADER, true);
+        await firebaseRegister(email, password);
+        dispatch(
+          'loadMessage',
+          { message: 'User successfully registered!', type: 'success' },
+          { root: true }
+        );
       } catch (err) {
         dispatch('loadMessage', { message: err.message, type: 'error' }, { root: true });
       } finally {

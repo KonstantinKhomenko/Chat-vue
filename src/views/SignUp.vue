@@ -1,57 +1,54 @@
 <template>
-  <div class="reset-form">
-    <h1 class="reset-form-title">Reset password</h1>
-    <p class="reset-form-description">Enter a new password</p>
-
-    <el-form :model="formData" :rules="rules" ref="resetForm">
-      <el-form-item label="Email" prop="email" size="small">
-        <el-input v-model="formData.email" />
-      </el-form-item>
-
-      <el-form-item label="New password" prop="password" size="small">
-        <el-input
-          class="form-input"
-          v-model="formData.password_1"
-          type="password"
-          :show-password="true"
-        />
-        <el-input v-model="formData.password_2" type="password" :show-password="true" />
-      </el-form-item>
-
-      <div>
-        <el-button type="danger" plain size="small" native-type="submit">Reset</el-button>
+  <div class="register-page">
+    <div class="register-form-wrap">
+      <div class="register-form-image">
+        <img src="@/assets/register-page-bg.png" alt="" />
       </div>
-    </el-form>
+      <RegisterForm />
+    </div>
   </div>
 </template>
 
 <script>
+import RegisterForm from '@/components/RegisterForm.vue';
+
 export default {
   name: 'SignUp',
-  data: () => ({
-    formData: {
-      email: '',
-      password_1: '',
-      password_2: ''
-    },
-    rules: {}
-  })
+  components: {
+    RegisterForm
+  }
 };
 </script>
 
 <style scoped>
-.reset-form {
-  padding: 20px 80px;
-  width: 350px;
+.register-page {
+  background-color: #d5e4e4;
+  height: 100vh;
+  min-height: 780px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.reset-form-description {
-  margin-bottom: 30px;
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 14px;
+.register-form-wrap {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #fff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 30px 90px #a7d7d9;
+  height: 600px;
+  overflow: hidden;
 }
 
-.form-input {
-  margin-bottom: 10px;
+.register-form-image {
+  height: 100%;
+  overflow: hidden;
+}
+
+.register-form-image img {
+  display: block;
+  height: 100%;
 }
 </style>
