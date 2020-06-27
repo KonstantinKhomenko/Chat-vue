@@ -7,19 +7,21 @@ import {
 } from '@/services/firebase/auth.service';
 import router from '@/router';
 
-const { IS_LOGGED_IN, LOGIN_LOADER } = mutations;
+const { IS_LOGGED_IN, LOGIN_LOADER, IS_FIRST_LOGIN } = mutations;
 
 const authStore = {
   namespaced: true,
 
   state: {
-    isLoggedIn: false,
-    loginInProgress: false
+    isLoggedIn: Boolean(localStorage.getItem('vue_app_token')),
+    loginInProgress: false,
+    isFirstLogin: false
   },
 
   getters: {
     isLoggedIn: ({ isLoggedIn }) => isLoggedIn,
-    loginInProgress: ({ loginInProgress }) => loginInProgress
+    loginInProgress: ({ loginInProgress }) => loginInProgress,
+    isFirstLogin: ({ isFirstLogin }) => isFirstLogin
   },
 
   mutations: {
@@ -29,6 +31,10 @@ const authStore = {
 
     [LOGIN_LOADER](state, bool) {
       state.loginInProgress = bool;
+    },
+
+    [IS_FIRST_LOGIN](state, bool) {
+      state.isFirstLogin = bool;
     }
   },
 
@@ -79,7 +85,8 @@ const authStore = {
     async register({ commit, dispatch }, { email, pass_1: password }) {
       try {
         commit(LOGIN_LOADER, true);
-        await firebaseRegister(email, password);
+        const data = await firebaseRegister(email, password);
+        commit(IS_FIRST_LOGIN, data.additionalUserInfo.isNewUser);
         dispatch(
           'loadMessage',
           { message: 'User successfully registered!', type: 'success' },

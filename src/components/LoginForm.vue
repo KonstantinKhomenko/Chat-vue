@@ -54,7 +54,11 @@ export default {
   }),
 
   computed: {
-    ...mapGetters('auth', ['loginInProgress'])
+    ...mapGetters('auth', ['loginInProgress', 'isLoggedIn'])
+  },
+
+  watch: {
+    isLoggedIn: 'redirectToHome'
   },
 
   methods: {
@@ -64,6 +68,12 @@ export default {
         if (!isValid) return;
         this.login({ ...this.formData });
       });
+    },
+
+    redirectToHome(val) {
+      if (val) {
+        this.$router.push({ name: 'Home' });
+      }
     }
   }
 };

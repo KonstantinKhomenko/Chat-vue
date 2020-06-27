@@ -27,6 +27,15 @@
         >
       </div>
     </el-form>
+
+    <div class="register-footer">
+      Already have an account?
+      <div class="register-footer-link">
+        <router-link :to="{ name: 'Login' }">
+          <ElLink type="primary" :underline="false">Log In</ElLink>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -82,7 +91,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters('auth', ['loginInProgress'])
+    ...mapGetters('auth', ['loginInProgress', 'isFirstLogin'])
+  },
+
+  watch: {
+    isFirstLogin: 'redirectToFirstLoginSetup'
   },
 
   methods: {
@@ -92,6 +105,12 @@ export default {
         if (!isValid) return;
         this.register({ ...this.formData });
       });
+    },
+
+    redirectToFirstLoginSetup(val) {
+      if (val) {
+        this.$router.push({ name: 'FirstLoginSettings' });
+      }
     }
   }
 };
@@ -107,5 +126,16 @@ export default {
   margin-bottom: 30px;
   color: rgba(0, 0, 0, 0.5);
   font-size: 14px;
+}
+
+.register-footer {
+  display: flex;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.register-footer-link {
+  margin-left: 10px;
 }
 </style>

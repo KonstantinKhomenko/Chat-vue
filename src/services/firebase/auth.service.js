@@ -37,3 +37,12 @@ export const firebaseRegister = async (email, password) => {
     return Promise.reject(err);
   }
 };
+
+export const getUserIdToken = async () => {
+  try {
+    const token = await auth.currentUser.getIdToken();
+    return token;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
