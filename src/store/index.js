@@ -6,6 +6,7 @@ import authGuard from '@/guards/auth.guard';
 import auth from './modules/auth';
 import notify from './modules/notify';
 import user from './modules/user';
+import chats from './modules/chats';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
   modules: {
     auth,
     notify,
-    user
+    user,
+    chats
   }
 });
 

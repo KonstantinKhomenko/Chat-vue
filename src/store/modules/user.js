@@ -6,16 +6,17 @@ const { USER } = mutations;
 const userStore = {
   namespaced: true,
   state: {
-    user: null
+    user: {}
   },
 
   getters: {
-    user: ({ user }) => user
+    user: ({ user }) => user,
+    fullName: ({ user }) => `${user.firstName || ''} ${user.lastName || ''}`
   },
 
   mutations: {
-    [USER](state, obj) {
-      state.user = obj;
+    [USER](state, { data }) {
+      state.user = data;
     }
   },
 
@@ -37,8 +38,8 @@ const userStore = {
 
     async getUser({ commit }, { email }) {
       try {
-        const user = await axios.get(`/users/${email}`);
-        commit(USER, user);
+        const res = await axios.get(`/users/${email}`);
+        commit(USER, res);
       } catch (err) {
         console.log(err);
       }
