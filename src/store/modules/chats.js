@@ -2,10 +2,7 @@ import mutations from '@/store/mutations';
 import axios from '@/plugins/axios';
 
 const {
-  PUBLIC_CHATS,
-  SELECT_CHAT_ID,
-  CURRENT_CHAT,
-  CURRENT_CHAT_MSGS
+  PUBLIC_CHATS, SELECT_CHAT_ID, CURRENT_CHAT, CURRENT_CHAT_MSGS
 } = mutations;
 
 const chatsStore = {
@@ -60,7 +57,7 @@ const chatsStore = {
 
     async getSelectedChatMsgs({ commit }, id) {
       try {
-        const res = await axios.get(`/messages/${id}`);
+        const res = await axios.get(`/messages/chat/${id}`);
         commit(CURRENT_CHAT_MSGS, res.data);
       } catch (err) {
         console.log(err);
