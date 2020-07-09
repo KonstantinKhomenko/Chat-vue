@@ -5,7 +5,7 @@
     <div class="chat-item-info">
       <div class="chat-name">
         <span class="chat-name-text">{{ chatName }}</span>
-        <span class="chat-update-time">{{ lastMsgTime }}</span>
+        <span class="chat-update-time">{{ lastMsgTime | passedTime }}</span>
       </div>
 
       <p class="chat-item-last-msg">{{ lastMsg }}</p>
@@ -33,7 +33,7 @@ export default {
       return this.chat.name;
     },
     lastMsgTime() {
-      return this.chat.lastMessageTime || '-';
+      return this.chat.lastMessage ? this.chat.lastMessage.time : '-';
     },
     lastMsg() {
       return this.chat.lastMessage ? this.chat.lastMessage.text : 'No messages';

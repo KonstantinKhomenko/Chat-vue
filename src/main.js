@@ -4,8 +4,11 @@ import router from './router';
 import store from './store';
 import '@/plugins/element-ui';
 import SocketPlugin from './plugins/socket';
+import passedTime from './filters/passedTime';
 
 Vue.config.productionTip = false;
+
+Vue.filter('passedTime', passedTime);
 
 Vue.use(
   new SocketPlugin({
