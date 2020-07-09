@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-messages-wrap">
+  <div class="chat-messages-wrap" v-scrollDown="messages.length">
     <template v-if="!messages.length">
       <NoChatMessages />
     </template>
@@ -12,6 +12,10 @@
           :is-current-user-msg="msg.user._id === currentUserId"
         />
       </template>
+
+      <template v-if="isTyping">
+        <TypingLoader />
+      </template>
     </template>
   </div>
 </template>
@@ -19,12 +23,14 @@
 <script>
 import ChatMessage from '@/components/ChatMessage.vue';
 import NoChatMessages from '@/components/NoChatMessages.vue';
+import TypingLoader from '@/components/TypingLoader.vue';
 
 export default {
   name: 'ChatMessages',
   components: {
     ChatMessage,
-    NoChatMessages
+    NoChatMessages,
+    TypingLoader
   },
 
   props: {
@@ -35,6 +41,19 @@ export default {
     currentUserId: {
       type: String,
       required: true
+    },
+    isTyping: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  directives: {
+    scrollDown: {
+      componentUpdated(el, binding) {
+        if (binding.value === 0) return;
+        el.scrollTop = el.scrollHeight;
+      }
     }
   }
 };
@@ -43,7 +62,7 @@ export default {
 <style scoped>
 .chat-messages-wrap {
   padding: 30px 60px;
-  height: 75vh;
+  height: 70vh;
   flex-grow: 1;
   overflow-x: auto;
 }

@@ -11,7 +11,7 @@
 
     <template v-else>
       <el-input v-model="text" type="textarea" class="message-control" @input="onInputMessage" />
-      <el-button type="primary" icon="el-icon-message" circle @click="submitMsg" />
+      <el-button type="primary" icon="el-icon-message" class="chat-btn" circle @click="submitMsg" />
     </template>
   </div>
 </template>
@@ -68,8 +68,12 @@ export default {
 }
 
 .message-control >>> .el-textarea__inner {
-  border: none;
+  border-color: #7e57c2;
   margin-right: 20px;
   resize: none;
+}
+
+.chat-btn {
+  margin-left: 15px;
 }
 </style>
