@@ -2,7 +2,7 @@ import mutations from '@/store/mutations';
 import axios from '@/plugins/axios';
 
 const {
-  PUBLIC_CHATS, SELECT_CHAT_ID, CURRENT_CHAT, CURRENT_CHAT_MSGS
+  PUBLIC_CHATS, SELECT_CHAT_ID, CURRENT_CHAT, CURRENT_CHAT_MSGS, NEW_MSG
 } = mutations;
 
 const chatsStore = {
@@ -33,6 +33,9 @@ const chatsStore = {
     },
     [CURRENT_CHAT_MSGS](state, arr) {
       state.currentChatMessages = arr;
+    },
+    [NEW_MSG](state, msg) {
+      state.currentChatMessages.push(msg);
     }
   },
 
@@ -69,6 +72,10 @@ const chatsStore = {
       commit(SELECT_CHAT_ID, id);
       dispatch('getSelectedChat', id);
       dispatch('getSelectedChatMsgs', id);
+    },
+
+    newMessage({ commit }, msg) {
+      commit(NEW_MSG, msg);
     }
   }
 };

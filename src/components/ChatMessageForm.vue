@@ -10,7 +10,8 @@
     </template>
 
     <template v-else>
-      <div>Form</div>
+      <el-input v-model="text" type="textarea" class="message-control" @input="onInputMessage" />
+      <el-button type="primary" icon="el-icon-message" circle @click="submitMsg" />
     </template>
   </div>
 </template>
@@ -18,6 +19,10 @@
 <script>
 export default {
   name: 'ChatMessageForm',
+  data: () => ({
+    text: ''
+  }),
+
   props: {
     isJoin: {
       type: Boolean,
@@ -28,6 +33,13 @@ export default {
   methods: {
     joinChat() {
       this.$emit('joinChat');
+    },
+    onInputMessage() {
+      this.$emit('typing');
+    },
+    submitMsg() {
+      this.$emit('submitMessage', this.text);
+      this.text = '';
     }
   }
 };

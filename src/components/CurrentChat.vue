@@ -6,7 +6,12 @@
 
     <template v-else>
       <ChatMessages :messages="currentChatMessages" :current-user-id="user._id" />
-      <ChatMessageForm :is-join="isUserJoinSelectedChat" @joinChat="onJoinChat" />
+      <ChatMessageForm
+        :is-join="isUserJoinSelectedChat"
+        @joinChat="onJoinChat"
+        @typing="onTyping"
+        @submitMessage="onSubmitMsg"
+      />
     </template>
   </main>
 </template>
@@ -37,11 +42,22 @@ export default {
 
   methods: {
     ...mapActions('user', ['getUser']),
+    ...mapActions('chats', ['newMessage']),
     onJoinChat() {
       this.$socket.emit(Emitters.JOIN_CHAT, {
         chatId: this.selectedChatId,
         userName: this.fullName,
         userId: this.user._id
+      });
+    },
+    onTyping() {
+      this.$socket.emit(Emitters.USER_TYPING, { chatId: this.selectedChatId });
+    },
+    onSubmitMsg(text) {
+      this.$socket.emit(Emitters.NEW_MESSAGE, {
+        chatId: this.selectedChatId,
+        userId: this.user._id,
+        text
       });
     }
   },
@@ -51,6 +67,14 @@ export default {
       if (userId === this.user._id) {
         this.getUser(this.user.email);
       }
+    });
+
+    this.$socket.on(Listeners.USER_TYPING, ({ chatId }) => {
+      console.log(chatId);
+    });
+
+    this.$socket.on(Listeners.NEW_MESSAGE, msg => {
+      this.newMessage(msg);
     });
   }
 };
