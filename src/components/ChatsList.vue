@@ -23,14 +23,30 @@ export default {
   },
 
   computed: {
-    ...mapGetters('chats', ['publicChats', 'selectedChatId'])
+    ...mapGetters('chats', ['publicChats', 'selectedChatId']),
+    ...mapGetters('user', ['user'])
+  },
+
+  watch: {
+    user: 'setChatOnGetUser'
   },
 
   methods: {
     ...mapActions('chats', ['getPublicChats', 'selectChat']),
-    onChatSelect(id) {
+    setChatId(id) {
       this.selectChat(id);
       this.$socket.emit(Emitters.SELECT_CHAT, { chatId: id });
+    },
+    onChatSelect(id) {
+      if (id === this.selectedChatId) return;
+
+      this.setChatId(id);
+      this.$router.push({ query: { chatId: id } });
+    },
+    setChatOnGetUser(user) {
+      if (!this.$route.query.chatId || !user._id) return;
+
+      this.setChatId(this.$route.query.chatId);
     }
   },
 
