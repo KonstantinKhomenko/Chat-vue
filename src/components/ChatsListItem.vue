@@ -1,6 +1,8 @@
 <template>
   <div class="chat-item" :class="chatClasses" @click="selectChat">
-    <div class="chat-item-avatar"></div>
+    <div class="chat-item-avatar">
+      <span v-if="isNewMessage" class="new-message"></span>
+    </div>
 
     <div class="chat-item-info">
       <div class="chat-name">
@@ -25,6 +27,10 @@ export default {
     isSelected: {
       type: Boolean,
       default: false
+    },
+    chatIdsPool: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -42,6 +48,9 @@ export default {
       return {
         selected: this.isSelected
       };
+    },
+    isNewMessage() {
+      return this.chatIdsPool.includes(this.chat._id);
     }
   },
 
@@ -80,7 +89,7 @@ export default {
   position: absolute;
   width: 12px;
   height: 12px;
-  background: red;
+  background: orangered;
   border-radius: 50%;
   top: -4px;
   right: -4px;

@@ -99,7 +99,9 @@ export default {
     });
 
     this.$socket.on(Listeners.NEW_MESSAGE, msg => {
-      this.newMessage(msg);
+      if (msg.chat === this.selectedChatId) {
+        this.newMessage(msg);
+      }
     });
   }
 };
