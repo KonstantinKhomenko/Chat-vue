@@ -23,7 +23,9 @@ const userStore = {
   actions: {
     setUserState: {
       handler({ dispatch }, user) {
-        dispatch('getUser', user);
+        if (user) {
+          dispatch('getUser', user);
+        }
       },
       root: true
     },

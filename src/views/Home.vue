@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import Aside from '@/components/Aside.vue';
 import CurrentChat from '@/components/CurrentChat.vue';
 
@@ -17,14 +16,6 @@ export default {
   components: {
     Aside,
     CurrentChat
-  },
-
-  methods: {
-    ...mapActions('auth', ['logout']),
-    async logoutUser() {
-      await this.logout();
-      this.$router.push({ name: 'Login' });
-    }
   }
 };
 </script>

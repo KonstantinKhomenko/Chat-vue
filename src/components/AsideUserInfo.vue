@@ -7,17 +7,34 @@
         </div>
       </router-link>
       <span class="aside-user-name">{{ fullName }}</span>
+      <el-button
+        class="logout-btn"
+        circle
+        type="danger"
+        icon="el-icon-switch-button"
+        plain
+        size="mini"
+        @click="logoutUser"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'AsideUserInfo',
   computed: {
     ...mapGetters('user', ['fullName'])
+  },
+
+  methods: {
+    ...mapActions('auth', ['logout']),
+    async logoutUser() {
+      await this.logout();
+      this.$router.push({ name: 'Login' });
+    }
   }
 };
 </script>
@@ -50,5 +67,9 @@ export default {
   font-size: 16px;
   color: #fff;
   margin-left: 15px;
+}
+
+.logout-btn {
+  margin-left: auto;
 }
 </style>
